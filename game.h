@@ -20,6 +20,13 @@ using namespace std;
 
 /// @author ddm9373: ddm9373 Douglas Moyer 
 ///
+enum state {
+    INTERNAL,
+    INTERNATIONAL,
+    UPDATE_MESSAGE,
+    LOST
+};
+
 class game {
     public:
         game();
@@ -32,7 +39,12 @@ class game {
         void get_message(string* return_value);
         void response(int a);
         bool running();
+        int num_nat_issues();
+        string* nat_issues();
+        float* nat_issue_scores();
     private:
+        enum state state_;
+
         bool running_;
         int current_issue_;
         int current_severity_;
@@ -52,6 +64,17 @@ class game {
         void open_demographics();
         void init_messages();
         void add_faction();
+        void init_nation();
+
+        int num_nat_issues_;
+        string* nat_issues_;
+        int** nat_issue_demo_;
+        float* nat_issue_scores_;
+        string** nat_messages_;
+        int* num_nat_messages_;
+
+        bool check_lost(string* return_value);
+        bool nat_issue(string* return_value);
 };
 
 #endif // GAME_H

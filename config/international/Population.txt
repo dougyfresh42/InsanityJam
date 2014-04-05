@@ -1,0 +1,4 @@
+2
+3       10  0          .8          0        Your population has begun to decline
+0       7   0          1.2         0        Babies are being born!
+Minimum Max +Happiness *Population +Faction Message

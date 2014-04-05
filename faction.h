@@ -26,6 +26,8 @@ class faction {
         float happiness();
         float loyalty();
         int population_size();
+        void add_happiness(float a);
+        void mul_population(float a);
     private:
         demographic *pop_demo_;
         int num_demo_;

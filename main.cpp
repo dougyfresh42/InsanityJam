@@ -20,9 +20,15 @@ int main( int argc, const char* argv[] ) {
     //string* issues = run_game.issues();
     int num_categories = run_game.num_categories();
     string* categories = run_game.categories();
+    int num_national_issues = run_game.num_nat_issues();
+    string* national_issues = run_game.nat_issues();
+    float* nat_issues_score = run_game.nat_issue_scores();
     while(run_game.running()) {
         int x = 1;
         char input;
+        cout << "National Issues:\n";
+        for(int i = 0; i < num_national_issues; i++)
+            cout << national_issues[i] << ": " << nat_issues_score[i] << "\n";
         for(vector<faction>::iterator it = factions->begin(); it != factions->end(); it++) {
             cout << "Faction " << x++ << ": Happiness: " << it->happiness() << "\n";
             for(int i = 0; i < num_categories; i++) {
@@ -38,6 +44,7 @@ int main( int argc, const char* argv[] ) {
         bool correct_input = true;
         do {
             if(!correct_input) cout <<"Wrong input, please try again\n";
+            correct_input = true;
             string buff;
             cin >> buff;
             input = buff[0];

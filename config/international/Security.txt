@@ -1,0 +1,4 @@
+2
+3       10  -10        .8          0        A neighboring country sees your weak military and attacks.
+3       10  0          0           0        You're weak military gets you nuked and decimated.
+Minimum Max +Happiness *Population +Faction Message

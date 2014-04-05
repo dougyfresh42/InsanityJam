@@ -1,0 +1,4 @@
+2
+3       10  -5         .9          0        A distinct lack of peace leads to some turf wars
+0       7   0          1           1        You're so peaceful a new faction has joined you!
+Minimum Max +Happiness *Population +Faction Message

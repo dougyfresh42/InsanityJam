@@ -7,7 +7,8 @@
 // 
 // // // // // // // // // // // // // // // // // // // // // // // // 
 
-#include <math.h>
+#include <cmath>
+#include <stdlib.h>
 #include "faction.h"
 #include "demographic.h"
 
@@ -15,6 +16,7 @@ faction::faction(demographic *demos, int num_demo){
     pop_demo_ = demos;
     num_demo_ = num_demo;
     happiness_ = 50;
+    population_size_ = rand() % 1000 + 1000;
 }
 
 //faction::~faction() { delete[] pop_demo_; }
@@ -58,9 +60,14 @@ float faction::loyalty() { return loyalty_; }
 
 int faction::population_size() { return population_size_; }
 
+void faction::add_happiness(float a) { happiness_ += a; }
+
+void faction::mul_population(float a) { population_size_ = population_size_ * a; }
+
 void faction::update_happiness(int issue, int severity, bool positive) {
     for(int i = 0; i < num_demo_; i++) 
-        happiness_ += (positive ? (1) : (-1)) * (pop_demo_[i].stance(issue) - .5)*pow(2, severity);
+        happiness_ += (positive ? (1) : (-1)) * (pop_demo_[i].stance(issue) - .5)*pow(2, severity)
+                *((50 - abs(happiness_ - 50)) / 50);
 }
 
 // // // // // // // // // // // // // // // // // // // // // // // // 

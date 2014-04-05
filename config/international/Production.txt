@@ -1,0 +1,4 @@
+2
+3       10  -10        .8          0        Becoming lazy, your country has a small goods shortage
+0       7   +10        1.1         0        Working hard, good job!
+Minimum Max +Happiness *Population +Faction Message

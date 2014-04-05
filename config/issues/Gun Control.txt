@@ -1,0 +1,10 @@
+4
+1
+Yes No Little Jimmy found his dad's gun, revoke dad's license?
+2
+Yes No Hood rat La-a shot her boyfriend, tighten background checks?
+3
+Approve Veto More gun control laws have been proposed.
+4
+Allow Deny States have begun banning all guns.
+END

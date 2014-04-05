@@ -1,0 +1,5 @@
+4
+Security    -1  0   0   0   1
+Peace       1   1   0   -1  -1
+Production  0   -1  0   1   0
+Population  0   0   -1  1   0
