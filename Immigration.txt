@@ -1,9 +1,0 @@
-4
-1
-Yes No Immigration One
-2
-Yes No Immigration Two
-3
-Yes No Immigration Three
-4
-Yes No Immigration Four
