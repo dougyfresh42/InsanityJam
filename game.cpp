@@ -209,17 +209,20 @@ int game::num_categories() { return num_categories_; }
 string* game::categories() { return categories_; }
 
 void game::get_message(string *return_value) {
-    if(check_lost(return_value)) return;
-    if(nat_issue(return_value)) return;
-    current_issue_ = rand() % num_issues_;
-    int message = rand() % num_messages_[current_issue_];
-    current_severity_ = severities_[current_issue_][message];
-    stringstream ss(messages_[current_issue_][message]);
-    ss >> return_value[1];
-    ss >> return_value[2];
-    string ccat;
-    ss >> return_value[0];
-    while(ss >> ccat) return_value[0] += " " + ccat;
+    bool cont = true;
+    if(check_lost(return_value)) cont = false;
+    if(cont && nat_issue(return_value)) cont = false;
+    if(cont) {
+        current_issue_ = rand() % num_issues_;
+        int message = rand() % num_messages_[current_issue_];
+        current_severity_ = severities_[current_issue_][message];
+        stringstream ss(messages_[current_issue_][message]);
+        ss >> return_value[1];
+        ss >> return_value[2];
+        string ccat;
+        ss >> return_value[0];
+        while(ss >> ccat) return_value[0] += " " + ccat;
+    }
 }
 
 bool game::check_lost(string* return_value) {
