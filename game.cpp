@@ -268,7 +268,7 @@ bool game::check_lost(string* return_value) {
             return_value[2] = "Exit";
             return_value[0] = "A faction has revolted, Game Over";
             state_ = LOST;
-            running = false;
+            running_ = false;
         }
     }
     if(lost) {
