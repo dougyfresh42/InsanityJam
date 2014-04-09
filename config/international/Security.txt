@@ -1,4 +1,6 @@
-2
+4
 3       10  -10        .8          0        A neighboring country sees your weak military and attacks.
-3       10  0          0           0        You're weak military gets you nuked and decimated.
+2       10  0          0           0        Your weak military gets you nuked and decimated.
+0	    7   +10        1.2         0        Impressed by your military prowess, people join you.
+0       8   0          1           1        Your military decides to conquer a new faction! Random.
 Minimum Max +Happiness *Population +Faction Message

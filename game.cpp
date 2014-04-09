@@ -14,6 +14,8 @@
 #include <sstream>
 #include "game.h"
 
+
+//Different OS, different slash
 #ifdef _WIN64
     const string prefix = "config\\";
 #elif _WIN32
@@ -22,25 +24,34 @@
     const string prefix = "config/";
 #endif
 
+//commented
 game::game(){
+    //init srand to actually be random (pseudo)
     srand(time(NULL));
-    open_issues();
-    open_demographics();
-    init_messages();
-    init_nation();
-    add_faction();
+    //begin the game
     running_ = true;
+    //opens all of the available controversial issues (ironically I don't think I ever use them)
+    open_issues();
+    //opens all of the available demographics, and how they feel about issues
+    open_demographics();
+    //reads in all of the available messages and severities for different issues
+    init_messages();
+    //initializes "major" issues and factors affecting them
+    init_nation();
+    //adds the first faction
+    add_faction();
     state_ = INTERNAL;
 }
 
+//commented
 game::~game(){
+    //cleans up (hopefully) everything I created dynamically
     delete[] issues_;
     delete[] categories_;
     for(int i = 0; i < num_categories_; i++) 
         delete[] population_[i];
     delete[] population_;
     delete[] demo_per_cat_;
-    //delete factions_;
     for(int i = 0; i < num_issues_; i++){
         delete[] messages_[i];
         delete[] severities_[i];
@@ -60,7 +71,9 @@ game::~game(){
     delete[] num_nat_messages_;
 }
 
+//commented
 void game::open_issues() {
+    //creates a new input stream from the issues file
     ifstream issue_f;
     string path = prefix;
     path.append("issues.txt");
@@ -68,15 +81,20 @@ void game::open_issues() {
     if(issue_f.is_open()) {
         string getln;
         getline(issue_f, getln);
+        //the first line is the number of issues
         num_issues_ = atoi(getln.c_str());
-
         issues_ = new string[num_issues_];
         for(int i = 0; i < num_issues_; i++)
             getline(issue_f, issues_[i]);
     }
+    //if it don't work, don't start the game
+    else running_ = false;
     issue_f.close();
 }
 
+//commented
+//honestly the parsing isn't terribly advanced so I didn't comment too much
+//can elaborate if asked
 void game::open_demographics() {
     ifstream demo_f;
     string path = prefix;
@@ -85,10 +103,13 @@ void game::open_demographics() {
     if(demo_f.is_open()) {
         string getln;
         getline(demo_f, getln);
+        //how many different demographic categories there are
         num_categories_ = atoi(getln.c_str());
         
         population_ = new demographic*[num_categories_];
+        //need to know how many demographics are in each category
         demo_per_cat_ = new int[num_categories_];
+        //what the categories are
         categories_ = new string[num_categories_];
         
         string buff;
@@ -105,9 +126,12 @@ void game::open_demographics() {
             }
         }
     }
+    else running_ = false;
     demo_f.close();
 }
 
+//commented
+//same thing, its just a bunch of getlines and arrays
 void game::init_messages() {
     messages_ = new string*[num_issues_];
     severities_ = new int*[num_issues_];
@@ -115,7 +139,11 @@ void game::init_messages() {
     for(int i = 0; i < num_issues_; i++) {
         ifstream temp;
         string path = prefix;
+        #ifdef WINDOWS
+        path.append("issues\\");
+        #else
         path.append("issues/");
+        #endif
         path.append(issues_[i]);
         path.append(".txt");
         temp.open(path.c_str());
@@ -137,11 +165,9 @@ void game::init_messages() {
             }
         }
     }
-    //for(int i = 0; i < num_issues_; i++)
-        //for(int j = 0; j < num_messages_[i]; j++)
-            //cout << messages_[i][j] << "\n";
 }
 
+//more parsing
 void game::init_nation() {
     ifstream national_f;
     string path = prefix;
@@ -174,7 +200,11 @@ void game::init_nation() {
     num_nat_messages_ = new int[num_nat_issues_];
     for(int i = 0; i < num_nat_issues_; i++) {
         path = prefix;
+	#ifdef WINDOWS
+	path.append("international\\");
+	#else
         path.append("international/");
+	#endif
         path.append(nat_issues_[i]);
         path.append(".txt");
         national_f.open(path.c_str());
@@ -192,6 +222,7 @@ void game::init_nation() {
     }
 }
 
+//GETTERS
 vector<faction>* game::factions() { return &factions_; }
 
 int game::num_issues() { return num_issues_; }
@@ -207,9 +238,12 @@ string* game::issues() { return issues_; }
 int game::num_categories() { return num_categories_; }
 
 string* game::categories() { return categories_; }
+//END GETTERS
 
+//commented
 void game::get_message(string *return_value) {
     bool cont = true;
+    //if the game was lost
     if(check_lost(return_value)) cont = false;
     if(cont && nat_issue(return_value)) cont = false;
     if(cont) {
@@ -227,13 +261,22 @@ void game::get_message(string *return_value) {
 
 bool game::check_lost(string* return_value) {
     bool lost = true;
-    for(vector<faction>::iterator it = factions_.begin(); it != factions_.end(); it++)
+    for(vector<faction>::iterator it = factions_.begin(); it != factions_.end(); it++) {
         if(it->population_size() > 0) lost =false;
+        if(it->happiness() < 30) {
+            return_value[1] = "Return";
+            return_value[2] = "Exit";
+            return_value[0] = "A faction has revolted, Game Over";
+            state_ = LOST;
+            running = false;
+        }
+    }
     if(lost) {
         return_value[1] = "Return";
         return_value[2] = "Exit";
         return_value[0] = "Sorry, ya lost.";
         state_ = LOST;
+        running_ = false;
     }
     return lost;
 }

@@ -10,9 +10,18 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <cstdlib>
 #include "game.h"
 
 using namespace std;
+
+void clear_screen() {
+#ifdef WINDOWS
+system("CLS");
+#else
+system("clear");
+#endif
+}
 
 string int2string(int a) {
     ostringstream ss;
@@ -39,21 +48,9 @@ int main( int argc, const char* argv[] ) {
     float* nat_issues_score = run_game.nat_issue_scores();
     int total_categories = (num_categories > num_national_issues ? num_categories : num_national_issues);
     while(run_game.running()) {
+	clear_screen();
         int x = 1;
         char input;
-/*        cout << "National Issues:\n";
-        for(int i = 0; i < num_national_issues; i++)
-            cout << national_issues[i] << ": " << nat_issues_score[i] << "\n";
-        for(vector<faction>::iterator it = factions->begin(); it != factions->end(); it++) {
-            cout << "Faction " << x++ << ": Happiness: " << it->happiness() << "\n";
-            for(int i = 0; i < num_categories; i++) {
-                cout << setw(10) << left << categories[i] << "\t";
-                cout << it->demo(i).name() << "\t";
-                cout << "\n";
-            }
-        }
-        cout << "\n";*/
-        
         string display[factions->size() + 1][total_categories + 2];
         display[0][0] = "Major Issues";
         for(int i = 1; i <= total_categories; i++)

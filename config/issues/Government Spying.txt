@@ -1,9 +1,9 @@
 4
 1
-Yes No Govt Spy One
+Ignore Punish A local mayor was caught eavesdropping on some of his people
 2
-Yes No Govt Spy Two
+Place Destroy Surveillance cameras are available to be placed in cities
 3
-Yes No Govt Spy Three
+Cover Apologize The public finds out that some wiretapping has been going on
 4
-Yes No Govt Spy Four
+Sign Veto Laws are passed allowing the government to read emails at will
